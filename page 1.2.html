@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hazats Adventure</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #FAF3E0; /* krem muda */
+      color: #4B3B2B; /* coklat tua */
+    }
+
+    /* Navbar vertikal di kiri */
+    .navbar {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 15px;
+      padding: 20px;
+      background-color: #2F4F4F; /* hijau gelap */
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+      width: 200px;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      overflow-y: auto;
+      user-select: none;
+      z-index: 100;
+    }
+
+    .navbar a {
+      padding: 10px 16px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 6px;
+      font-weight: 600;
+      color: #F5F5DC; /* krem terang */
+      text-decoration: none;
+      transition:
+        color 0.3s ease,
+        background-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.2s ease;
+      cursor: pointer;
+      display: inline-block;
+      text-align: left;
+    }
+
+    .navbar a:hover {
+      background-color: #D2691E; /* oranye tua */
+      color: #FAF3E0;
+      box-shadow: 0 4px 8px rgba(210, 105, 30, 0.5);
+      transform: scale(1.05);
+    }
+
+    .navbar a.active {
+      background-color: #D2691E; /* oranye tua */
+      color: #FAF3E0; /* krem muda */
+      box-shadow: 0 4px 12px rgba(210, 105, 30, 0.7);
+      transform: scale(1.1);
+      font-weight: 700;
+    }
+
+    /* Konten utama bergeser kanan */
+    .main-content {
+      margin-left: 220px;
+    }
+
+    /* Topbar */
+    .topbar {
+      background-color: #2F4F4F; /* hijau gelap */
+      color: #F5F5DC; /* krem terang */
+      padding: 8px 20px;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .topbar .top-left,
+    .topbar .top-center,
+    .topbar .top-right {
+      flex: 1;
+      text-align: center;
+    }
+
+    .topbar .top-left {
+      text-align: left;
+    }
+
+    .topbar .top-right {
+      text-align: right;
+    }
+
+    .topbar a {
+      color: #F5F5DC;
+      text-decoration: none;
+      font-weight: 600;
+      margin: 0 5px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition:
+        color 0.3s ease,
+        background-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.2s ease;
+      display: inline-block;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .topbar a:hover {
+      color: #FF8C00; /* oranye cerah */
+      background-color: rgba(255, 140, 0, 0.15);
+      box-shadow: 0 0 8px rgba(255, 140, 0, 0.7);
+      transform: scale(1.1);
+    }
+
+    .topbar a.active {
+      background-color: #1E2F27; /* hijau lebih gelap */
+      color: #FF8C00;
+      box-shadow: 0 0 12px #FF8C00;
+      transform: scale(1.1);
+      font-weight: 700;
+    }
+
+    /* Hero Section dengan background Gunung Slamet */
+    .hero {
+      position: relative;
+      height: 90vh;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Mount_Slamet_Indonesian_volcano.jpg/1280px-Mount_Slamet_Indonesian_volcano.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 20px;
+      user-select: none;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+    }
+
+    .hero h1 {
+      font-size: 40px;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+
+    .hero p {
+      font-size: 20px;
+      margin-bottom: 20px;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+    }
+
+    /* Search Box */
+    .search-box {
+      margin-top: 30px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .search-box select,
+    .search-box button {
+      padding: 12px 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      transition:
+        background-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.2s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .search-box select {
+      flex: 1;
+      min-width: 150px;
+      background-color: #FFF8E7; /* krem pucat */
+      color: #4B3B2B; /* coklat */
+      box-shadow: 0 2px 6px rgba(75, 59, 43, 0.15);
+      appearance: none;
+    }
+
+    .search-box select:hover,
+    .search-box select:focus {
+      box-shadow: 0 4px 12px rgba(210, 105, 30, 0.3);
+      outline: none;
+      transform: scale(1.05);
+    }
+
+    .search-box button {
+      background-color: #FF8C00; /* oranye cerah */
+      color: white;
+      min-width: 120px;
+      font-weight: 600;
+      box-shadow: 0 4px 8px rgba(255, 140, 0, 0.5);
+      user-select: none;
+    }
+
+    .search-box button:hover {
+      background-color: #D2691E; /* oranye tua */
+      box-shadow: 0 6px 14px rgba(210, 105, 30, 0.7);
+      transform: scale(1.1);
+    }
+
+    /* Section */
+    .section {
+      padding: 60px 20px;
+      text-align: center;
+      user-select: none;
+    }
+
+    /* Form Container */
+    .form-container {
+      max-width: 400px;
+      margin: 60px auto;
+      padding: 30px;
+      border-radius: 10px;
+      background-color: #FFF8E7; /* krem pucat */
+      box-shadow: 0 2px 8px rgba(75, 59, 43, 0.1);
+      display: none;
+      user-select: none;
+      transition: opacity 0.4s ease;
+      color: #4B3B2B;
+    }
+
+    .form-container.active {
+      display: block;
+      opacity: 1;
+    }
+
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: #2F4F4F; /* hijau gelap */
+    }
+
+    .form-container button.google-btn,
+    .form-container button.submit-btn {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      user-select: none;
+      display: inline-block;
+    }
+
+    .form-container button.google-btn {
+      border: 1px solid #B7A57A;
+      background-color: #FAF3E0;
+      color: #4B3B2B;
+      box-shadow: 0 2px 6px rgba(75, 59, 43, 0.1);
+    }
+
+    .form-container button.google-btn:hover {
+      background-color: #E6D6AD;
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(75, 59, 43, 0.2);
+    }
+
+    .form-container button.submit-btn {
+      background-color: #FF8C00;
+      color: white;
+      box-shadow: 0 4px 12px rgba(255, 140, 0, 0.7);
+    }
+
+    .form-container button.submit-btn:hover {
+      background-color: #D2691E;
+      transform: scale(1.05);
+      box-shadow: 0 6px 14px rgba(210, 105, 30, 0.9);
+    }
+
+    .form-container input,
+    .form-container textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #B7A57A;
+      font-size: 14px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      user-select: text;
+      color: #4B3B2B;
+    }
+
+    .form-container input:focus,
+    .form-container textarea:focus {
+      border-color: #2F4F4F;
+      box-shadow: 0 0 8px rgba(47, 79, 79, 0.5);
+      outline: none;
+    }
+
+    .form-container .divider {
+      display: flex;
+      align-items: center;
+      color: #888;
+      margin-bottom: 20px;
+    }
+
+    .form-container .divider::before,
+    .form-container .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #ccc;
+    }
+
+    .form-container .divider::before {
+      margin-right: 10px;
+    }
+
+    .form-container .divider::after {
+      margin-left: 10px;
+    }
+
+    .form-container .extra-options {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+
+    .form-container .form-footer {
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .form-container .form-footer a {
+      color: #2F4F4F;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+      user-select: none;
+    }
+
+    .form-container .form-footer a:hover {
+      color: #FF8C00;
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .topbar {
+        flex-direction: column;
+        text-align: center;
+      }
+      .search-box {
+        flex-direction: column;
+      }
+      .navbar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: center;
+        gap: 20px;
+      }
+      .main-content {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar vertikal di kiri -->
+  <nav class="navbar" aria-label="Main navigation">
+    <a href="#" onclick="showSection('home'); return false;">Home</a>
+    <a href="#" onclick="setActiveOnly(this); return false;">Open Trip</a>
+    <a href="#" onclick="setActiveOnly(this); return false;">Private Trip</a>
+    <a href="#" onclick="setActiveOnly(this); return false;">Custom Trip</a>
+    <a href="#" onclick="setActiveOnly(this); return false;">Sewa Mobil</a>
+    <a href="#" onclick="setActiveOnly(this); return false;">Contact Us</a>
+  </nav>
+
+  <div class="main-content">
+
+    <!-- Topbar -->
+    <div class="topbar" role="banner">
+      <div class="top-left">📷 📘 🐦 📍</div>
+      <div class="top-center">📞 +62 821-2991-3076 | ✉ info@hazatsadventure.id</div>
+      <div class="top-right">
+        <a href="#" onclick="showSection('login'); return false;">Login</a> |
+        <a href="#" onclick="showSection('signup'); return false;">Daftar</a>
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home-section">
+      <div class="hero-content">
+        <h1>#1 Open Trip Outdoor Bandung</h1>
+        <p>Halo teman! Trip bareng yuk</p>
+        <div class="search-box">
+          <select aria-label="Pilih Destinasi"><option>Destinasi</option></select>
+          <select aria-label="Pilih Tipe Trip"><option>Tipe Trip</option></select>
+          <select aria-label="Pilih Durasi"><option>Durasi</option></select>
+          <select aria-label="Pilih Harga"><option>Harga</option></select>
+          <button aria-label="Cari Trip">Cari</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section -->
+    <section class="section" id="home-section2">
+      <p style="color: #2F4F4F;">Kenapa Harus</p>
+      <h2>Trip bareng Hazats Adventure?</h2>
+      <p>Kami menyediakan pengalaman perjalanan outdoor terbaik dengan harga terjangkau dan guide profesional.</p>
+    </section>
+
+    <!-- Signup -->
+    <div class="form-container" id="signup-section" role="region" aria-labelledby="signup-title">
+      <h2 id="signup-title">Create an Account</h2>
+      <button class="google-btn" type="button">Continue with Google</button>
+      <div class="divider">OR</div>
+      <form>
+        <input type="text" placeholder="Username*" required autocomplete="username" />
+        <input type="email" placeholder="Email*" required autocomplete="email" />
+        <input type="password" placeholder="Password*" required autocomplete="new-password" />
+        <button class="submit-btn" type="submit">Sign Up</button>
+        <div class="form-footer">Have an account? <a href="#" onclick="showSection('login'); return false;">Log In</a></div>
+      </form>
+    </div>
+
+    <!-- Login -->
+    <div class="form-container" id="login-section" role="region" aria-labelledby="login-title">
+      <h2 id="login-title">Silahkan Login</h2>
+      <button class="google-btn" type="button">Continue with Google</button>
+      <div class="divider">OR</div>
+      <form>
+        <input type="text" placeholder="Email or username*" required autocomplete="username" />
+        <input type="password" placeholder="Password*" required autocomplete="current-password" />
+        <div class="extra-options">
+          <label><input type="checkbox" /> Remember me</label>
+          <a href="#">Forgot Password?</a>
+        </div>
+        <button class="submit-btn" type="submit">Log In</button>
+        <div class="form-footer">Don't have an account? <a href="#" onclick="showSection('signup'); return false;">Sign up</a></div>
+      </form>
+    </div>
+
+  </div>
+
+  <script>
+    function showSection(section) {
+      const isHome = section === 'home';
+      document.getElementById('home-section').style.display = isHome ? 'flex' : 'none';
+      document.getElementById('home-section2').style.display = isHome ? 'block' : 'none';
+      document.getElementById('signup-section').classList.toggle('active', section === 'signup');
+      document.getElementById('login-section').classList.toggle('active', section === 'login');
+      setActiveMenu(section);
+    }
+
+    function setActiveMenu(section) {
+      document.querySelectorAll('.navbar a').forEach(link => {
+        const text = link.textContent.toLowerCase();
+        if (section === 'home' && text === 'home') {
+          link.classList.add('active');
+        } else if (section !== 'home' && text.includes(section)) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+
+      document.querySelectorAll('.top-right a').forEach(link => {
+        const text = link.textContent.toLowerCase();
+        if (text.includes(section)) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    }
+
+    function setActiveOnly(el) {
+      document.querySelectorAll('.navbar a').forEach(link => {
+        link.classList.remove('active');
+      });
+      el.classList.add('active');
+
+      // Hide all forms and home sections when a navbar item clicked (except Home)
+      if (el.textContent.toLowerCase() === 'home') {
+        showSection('home');
+      } else {
+        document.getElementById('home-section').style.display = 'none';
+        document.getElementById('home-section2').style.display = 'none';
+        document.getElementById('signup-section').classList.remove('active');
+        document.getElementById('login-section').classList.remove('active');
+      }
+    }
+
+    // Initialize default view
+    showSection('home');
+  </script>
+
+</body>
+</html>
