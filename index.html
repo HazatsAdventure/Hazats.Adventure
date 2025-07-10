@@ -398,28 +398,36 @@
     <a href="#" onclick="showSection('home'); return false;">Home</a>
     <a href="#" onclick="setActiveOnly(this); return false;">Open Trip</a>
     <a href="#" onclick="setActiveOnly(this); return false;">Private Trip</a>
-    <a href="#" onclick="showSection('custom-trip'); return false;">Custom Trip</a>
+    <a href="#" onclick="showSection('custom-trip'); return false;">Daftar Trip</a>
     <a href="#" onclick="setActiveOnly(this); return false;">Sewa Alat Outdoor</a>
     <a href="#" onclick="setActiveOnly(this); return false;">Contact Us</a>
   </nav>
 
   <div class="main-content">
 
-    <!-- Topbar -->
-    <div class="topbar" role="banner">
-      <div class="top-left">📷 📘 🐦 📍</div>
-      <div class="top-center">📞 +62 812-1491-4641 | ✉ hazatadventure@gmail.com</div>
-      <div class="top-right">
-        <a href="#" onclick="showSection('login'); return false;">Login</a> |
-        <a href="#" onclick="showSection('signup'); return false;">Daftar</a>
-      </div>
-    </div>
+<!-- Topbar -->
+<div class="topbar" role="banner">
+  <div class="top-left">📷 📘 🐦 📍</div>
+  
+<div class="top-center">
+  📞 <a href="https://wa.me/6281214914641" target="_blank">+62 812-1491-4641</a> |
+  ✉ <a href="mailto:hazatadventure@gmail.com">hazatadventure@gmail.com</a>
+</div>
+
+<span id="date-time" style="margin-left: 10px;"></span>
+  
+  <div class="top-right">
+    <a href="#" onclick="showSection('login'); return false;">Login</a> |
+    <a href="#" onclick="showSection('signup'); return false;">Daftar</a>
+  </div>
+</div>
+
 
     <!-- Hero Section -->
     <section class="hero" id="home-section">
       <div class="hero-content">
-        <h1>#1 HAZATS ADVENTURE, Temukan Pengalam Terbaik Berpetualang Bersama Kami  </h1>
-        <p>Halo teman! Explore With Us</p>
+        <h1>HAZATS ADVENTURE, Temukan Pengalam Terbaik Menjelajah Gunung Bersama Kami  </h1>
+        <p>Explore With Us</p>
         <div class="search-box">
           <select aria-label="Pilih Destinasi"><option>Destinasi</option></select>
           <select aria-label="Pilih Tipe Trip"><option>Tipe Trip</option></select>
@@ -436,7 +444,17 @@
       <h2>Trip bareng Hazats Adventure?</h2>
       <p>Kami menyediakan pengalaman explore gunung di indonesia terbaik dengan harga terjangkau dan guide profesional.</p>
     </section>
-
+    
+      <!-- Sewa Alat Outdoor Section -->
+    <section class="section" id="sewa-section" style="display: none;">
+      <h2>Sewa Alat Outdoor</h2>
+      <div id="product-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;"></div>
+      <h3>Keranjang Anda</h3>
+      <div id="cart-list"></div>
+      <p><strong>Total: Rp <span id="cart-total">0</span></strong></p>
+      <button onclick="checkout()" style="padding: 10px 20px; background-color: #FF8C00; color: white; border: none; border-radius: 6px; font-weight: bold;">Sewa Sekarang</button>
+    </section>
+ 
     <!-- Signup -->
     <div class="form-container" id="signup-section" role="region" aria-labelledby="signup-title">
       <h2 id="signup-title">Create an Account</h2>
@@ -470,11 +488,11 @@
 
     <!-- Custom Trip Form -->
     <div class="form-container" id="custom-trip" role="region" aria-labelledby="custom-trip-title">
-      <h2 id="custom-trip-title">Custom Trip</h2>
+      <h2 id="custom-trip-title">Daftar Trip</h2>
       <form id="customTripForm">
         <input type="text" id="namaLengkap" name="namaLengkap" placeholder="Nama Lengkap*" required />
         <input type="tel" id="nomorWA" name="nomorWA" placeholder="Nomor WhatsApp*" required pattern="[0-9+ ]+" />
-        <input type="text" id="destinasi" name="destinasi" placeholder="Destinasi Impian*" required />
+        <input type="text" id="destinasi" name="destinasi" placeholder="Destinasi Tujuan*" required />
         <input type="number" id="jumlahPeserta" name="jumlahPeserta" placeholder="Jumlah Peserta*" required min="1" />
         <textarea id="catatan" name="catatan" placeholder="Catatan Tambahan"></textarea>
         <button class="submit-btn" type="submit">Kirim</button>
@@ -562,6 +580,35 @@
     // Initialize default view
     showSection('home');
   </script>
+  
+<script>
+  function updateDateTime() {
+    const now = new Date();
 
+    // Format tanggal: Kamis, 10 Juli 2025
+    const options = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      timeZone: 'Asia/Jakarta'
+    };
+    const date = now.toLocaleDateString('id-ID', options);
+
+    // Format waktu: 13:01:22
+    const time = now.toLocaleTimeString('id-ID', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+      timeZone: 'Asia/Jakarta'
+    }).replace(/\./g, ':'); // ubah titik jadi titik dua
+
+    document.getElementById('date-time').textContent = `${date} | ${time}`;
+  }
+
+  setInterval(updateDateTime, 1000);
+  updateDateTime();
+</script>
 </body>
 </html>
