@@ -407,28 +407,72 @@
       color: #FF8C00;
       text-decoration: underline;
     }
+/* Responsive */
+@media (max-width: 768px) {
+  /* Topbar mobile-friendly */
+  .topbar {
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+    font-size: 12px;
+  }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      .topbar {
-        flex-direction: column;
-        text-align: center;
-      }
-      .search-box {
-        flex-direction: column;
-      }
-      .navbar {
-        position: relative;
-        width: 100%;
-        height: auto;
-        flex-direction: row;
-        justify-content: center;
-        gap: 20px;
-      }
-      .main-content {
-        margin-left: 0;
-      }
-    }
+  /* Navbar jadi horizontal & rapi */
+  .navbar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  /* Konten geser dari kiri hilang di HP */
+  .main-content {
+    margin-left: 0;
+  }
+
+  /* Hero section teks agar lebih kecil */
+  .hero h1 {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .hero p {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  /* Kontainer hero biar tidak mepet */
+  .hero-content {
+    padding: 0 15px;
+  }
+
+  /* Search box kolom satu-satu */
+  .search-box {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Logo agar tidak terlalu besar */
+  .topbar .top-left img {
+    height: 40px;
+  }
+
+  /* Form spacing */
+  .form-container {
+    margin: 30px 15px;
+    padding: 20px;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+}
+
+
   </style>
 </head>
 <body>
